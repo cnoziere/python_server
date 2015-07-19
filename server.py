@@ -1,21 +1,27 @@
 import sys
 import BaseHTTPServer
-import SocketServer
 
 PORT = 8000
 
 class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
-        print self.command, self.headers
+        print self.command
+        print self.headers
         message = 'Hello {}.'.format(self.address_string())
-        self.send_response(1, message)
-
-
-HOST, PORT = '10.211.200.242', 8000
-handler = SimpleHTTPHandler
-http_daemon = SocketServer.TCPServer((HOST, PORT), handler)
-
-print "serving at port", PORT
+        self.send_response(200, message)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        return message
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        try:
+            PORT = int(sys.argv[1])
+        except:
+            PORT = 8000
+    HOST = '10.211.200.242'
+    handler = SimpleHTTPHandler
+    http_daemon = BaseHTTPServer.HTTPServer((HOST, PORT), handler)
+
+    print "serving at port", PORT
     http_daemon.serve_forever()
