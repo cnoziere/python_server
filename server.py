@@ -5,23 +5,30 @@ PORT = 8000
 
 class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
-        print self.command
-        print self.headers
-        message = 'Hello {}.'.format(self.address_string())
-        self.send_response(200, message)
-        self.send_header("Content-type", "text/plain")
-        self.end_headers()
-        return message
+        try:
+            f = open("chat.html")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(f.read())
+            f.close()
+        except IOError:
+            self.send_error(404, 'File Not Found')
+
+def main():
+    try:
+        if len(sys.argv) > 1:
+            try:
+                PORT = int(sys.argv[1])
+            except:
+                PORT = 8000
+        HOST = '10.211.200.242'
+        handler = SimpleHTTPHandler
+        server = BaseHTTPServer.HTTPServer((HOST, PORT), handler)
+        print "serving at port", PORT
+        server.serve_forever()
+    except:
+        pass
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        try:
-            PORT = int(sys.argv[1])
-        except:
-            PORT = 8000
-    HOST = '10.211.200.242'
-    handler = SimpleHTTPHandler
-    http_daemon = BaseHTTPServer.HTTPServer((HOST, PORT), handler)
-
-    print "serving at port", PORT
-    http_daemon.serve_forever()
+    main()
