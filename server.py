@@ -5,15 +5,17 @@ PORT = 8000
 
 class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
+        print self.path
         try:
             f = open("chat.html")
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(f.read())
-            f.close()
         except IOError:
             self.send_error(404, 'File Not Found')
+            return
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(f.read())
+        f.close()
 
 def main():
     try:
@@ -22,7 +24,9 @@ def main():
                 PORT = int(sys.argv[1])
             except:
                 PORT = 8000
-        HOST = '10.211.200.242'
+        else:
+            PORT = 8000
+        HOST = 'localhost'
         handler = SimpleHTTPHandler
         server = BaseHTTPServer.HTTPServer((HOST, PORT), handler)
         print "serving at port", PORT
