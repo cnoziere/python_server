@@ -7,7 +7,7 @@ class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         print self.path
         try:
-            triage()
+            f = self.load_file()
         except IOError:
             self.send_error(404, 'File Not Found')
             return
@@ -17,13 +17,14 @@ class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(f.read())
         f.close()
 
-def triage():
-    if self.path() == '/style.css' :
-        f = open("style.css")
-    elif self.path() == '/favicon.ico' :
-        f = open("favicon.ico")
-    else:
-        f = open("chat.html")
+    def load_file(self):
+        ''' Determines which file to send as a response based on the request. '''
+        if self.path == "/style.css" :
+            return open("style.css")
+        elif self.path == "/favicon.ico" :
+            return open("favicon.ico")
+        else:
+            return open("chat.html")
 
 def main():
     try:
