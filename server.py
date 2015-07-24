@@ -6,10 +6,8 @@ PORT = 8000
 class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         print self.path
-        try:
-            f = self.load_file()
-        except IOError:
-            self.send_error(404, 'File Not Found')
+        f = self.load_file()
+        if not f:
             return
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -19,12 +17,15 @@ class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def load_file(self):
         ''' Determines which file to send as a response based on the request. '''
-        if self.path == "/style.css" :
-            return open("style.css")
-        elif self.path == "/favicon.ico" :
-            return open("favicon.ico")
-        else:
-            return open("chat.html")
+        try:
+            if self.path == '/':
+                return open('chat.html')
+            else :
+                return open(self.path[1:])
+
+        except IOError:
+            self.send_error(404, 'File Not Found')
+            return None
 
 def main():
     try:
