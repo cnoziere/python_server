@@ -1,5 +1,6 @@
 import sys
 import BaseHTTPServer
+import mimetypes
 
 PORT = 8000
 
@@ -10,7 +11,10 @@ class SimpleHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if not f:
             return
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        ''' mimetypes.guess_type returns a tuple (type, encoding) where type
+        is None if the type can't be determined or a string of the form
+        type/subtype. '''
+        self.send_header('Content-type', mimetypes.guess_type(self.path, strict=True)[0])
         self.end_headers()
         self.wfile.write(f.read())
         f.close()
