@@ -1,0 +1,23 @@
+<head>
+<script>
+function send_message() {
+  var message = document.getElementById('chat_message');
+  var board = document.getElementById('message_board');
+  board.innerHTML += '<li>' + message.value + '</li>';
+}
+</script>
+</head>
+
+
+<body>
+<div id="input">
+  Message: </br>
+  <textarea id="chat_message"></textarea>
+  <button type="button" onclick="send_message()">Send</button>
+</div>
+
+<div>
+  <ul id="message_board">
+  </ul>
+</div>
+</body>
