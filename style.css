@@ -30,3 +30,12 @@ a.no_link {
   text-decoration: none;
   color: inherit;
 }
+
+figure
+{
+    width:50%;
+    float:left;
+    margin:0px;
+    text-align:center;
+    padding:10px;
+}

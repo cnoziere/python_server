@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>World</title>
+<link type="text/css" rel="stylesheet" href="../style.css" />
+</head>
+
+<map name="continents_map">
+  <area shape="circle" coords="208,315,80" href='#south_america'>
+  <area shape="circle" coords="120,130,110" href="#north_america">
+  <area shape="circle" coords="367,275,87" href="#africa">
+  <area shape="circle" coords="360,160,55" href="#europe">
+  <area shape="circle" coords="610,330,85" href="#oceania">
+  <area shape="circle" coords="540,130,150" href="#asia">
+</map>
+
+<figure>
+  <img usemap="#continents_map"
+  src="https://farm3.staticflickr.com/2946/15371421002_d5fe364fd5_o_d.gif"
+  alt="World Map" width="500px" />
+</figure>
+
+
+<div>
+  <h3 id="africa">Africa</h3>
+  <head>
+  <script type="text/javascript">
+  var slideimages = new Array() // create new array to preload images
+  slideimages[0] = new Image() // create new instance of image object
+  slideimages[0].src = "http://melleum.com/data/uploads/1/264474-african-animals.jpg"
+  slideimages[1] = new Image()
+  slideimages[1].src = "http://www.nationalgeographicexpeditions.com/assets/images/2351/itinerary-header.jpg"
+  slideimages[2] = new Image()
+  slideimages[2].src = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSpjt3_omnq_L55QDIDrvDCZv1nDjw98349U38WIMK6ekdjmkZs"
+  </script>
+  </head>
+  <body>
+    <img src="http://melleum.com/data/uploads/1/264474-african-animals.jpg" id="slide" width="400" height="300" onclick=nextimage() />
+    <script type="text/javascript">
+
+    function slideit() {
+      document.getElementById('slide').src = slideimages[step].src
+      step = (step + 1) % slideimages.length
+      //call function "slideit()" every 2.5 seconds
+      setTimeout("slideit()",2500)
+    }
+
+    function nextimage() {
+      step = (step + 1) % slideimages.length
+      document.getElementById('slide').src = slideimages[step].src
+    }
+
+    //variable that will increment through the images
+    var step=0
+    slideit()
+
+
+    </script>
+  </body>
+</div>
+
+</body>
+</html>
